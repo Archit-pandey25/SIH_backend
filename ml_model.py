@@ -3,18 +3,22 @@ from utils import preprocess_image
 import numpy as np
 from scipy import ndimage
 
+
 def load_model():
     # Load your pre-trained ML model
-    model = tf.keras.models.load_model('vgg19model.h5', compile = False)
+    model = tf.keras.models.load_model('plant_identification_model2.h5', compile=False)
     return model
+
 
 def predict_image(image_path):
     model = load_model()
     img = preprocess_image(image_path)  # Implement this function to preprocess the image
     img = img.reshape(1, 224, 224, 3)
-    prediction = model.predict(img)
+    predicted = model.predict(img)
+    prediction = np.argmax(predicted)
     # Process the prediction and return a classification result as a string
-    class_labels = [' Aloevera' , 'Amla' , 'Amruthballi', 'Arali', 'ashoka', ' Astma_weed', 'Badipala', 'Balloon_Vine',  'Bamboo', 'Beans', 'Betal', ' Bhrami', 'Bringaraja', 'camphor', 'Caricature', 'Castor', 'Catharanthus', 'Chakte', 'Chilly', 'Citron lime (herelikai)', 'Coffee', 'Common rue(nagadalli)', 'Coriender', 'Curry', 'Doddpathre', 'Drumstick', 'Ekka', 'Eucalyptus', 'Ganigale', 'Ganike', 'Gasagase', 'Ginger', 'Globe Amarnath', 'Guava', 'Henna', 'Hibiscus', 'Honge', 'Insulin', 'Jackfruit', 'Jasmine', 'Kamakasturi', 'Kambajala', 'Kasambruga', 'Kepala', 'Kohlrabi', 'Lantana', 'Lemon', 'Lemongrass', 'Malabar_Nut', 'Malabar_Spinach', 'Mango', 'Marigold', 'Mint', 'Neem', 'Nelavembu', 'Nerale', 'Nooni', 'Onion', 'Padri', 'Palak(Spinach)', 'Papaya', 'Parijatha', 'Pea', 'Pepper', 'Pomoegranate', 'Pumpkin', 'Raddish', 'Rose', 'Sampige', 'Sapota', 'Seethaashoka', 'Seethapala', 'Spinach1', 'Tamarind', 'Taro', 'Tecoma', 'Thumbe', 'Tomato', 'Tulsi', 'Turmeric']
-    predicted_class_index = np.argmax(prediction)
-    result = class_labels[predicted_class_index]  # Replace with your actual result
+    class_labels = ['Alpinia Galanga (Rasna)', 'Amaranthus Virdis (Arive-Dantu)', 'Artocarpus Heterophyllus (Jackfruit)', 'Azadirachta Indica (Neem)', 'Basella Alba (Basale)', 'Brassica Juncea (Indian Mustard)', 'Carissa Carandas (Karanda)', 'Citrus Limon (Lemon)', 'Ficus Auriculata (Roxburgh fig)', 'Ficus Religiosa (Peepal Tree)', 'Hibiscus Rosa-sinensis', 'Jasminum (Jasmine)', 'Mangifera Indica (Mango)', 'Mentha (Mint)', 'Moringa Oleifera (Drumstick)', 'Muntingia Calabura (Jamaica Cherry-Gasagase)', 'Murraya Koenigii (Curry)', 'Nerium Oleander (Oleander)', 'Nyctanthes Arbor-tristis (Parijata)', 'Ocimum Tenuiflorum (Tulsi)', 'Piper Betle (Betel)', 'Plectranthus Amboinicus (Mexican Mint)', 'Pongamia Pinnata (Indian Beech)', 'Psidium Guajava (Guava)', 'Punica Granatum (Pomegranate)', 'Santalum Album (Sandalwood)', 'Syzygium Cumini (Jamun)', 'Syzygium Jambos (Rose Apple)', 'Tabernaemontana Divaricata (Crape Jasmine)', 'Trigonella Foenum-graecum (Fenugreek)']
+    # predicted_class_index = np.argmax(prediction)
+    result = class_labels[prediction]  # Replace with your actual result
+    # result = np.array2string(predicted, precision=2, separator=' ', suppress_small=True)
     return result
