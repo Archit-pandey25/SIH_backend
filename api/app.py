@@ -4,7 +4,7 @@ import os
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins="http://localhost:3000")
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
 
@@ -70,5 +70,5 @@ def upload_file():
         return jsonify({'result': result, 'description': class_labels_dict[result]})
 
 
-if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=3000, debug=True)
+# if __name__ == '__main__':
+#    app.run(host='127.0.0.1', port=8080, debug=True)
